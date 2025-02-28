@@ -1,0 +1,17 @@
+import { ObjectType, Field } from '@nestjs/graphql';
+
+@ObjectType()
+export class OSSType {
+  @Field({ description: '过期时间' })
+  expire: number;
+  @Field({ description: '策略' })
+  policy: string;
+  @Field({ description: '签名' })
+  signature: string;
+  @Field({ description: 'OSSAccessKeyId' })
+  ossAccessKeyId: string;
+  @Field({ description: 'host' })
+  host: string;
+  @Field({ description: 'dir' })
+  dir: string;
+}
