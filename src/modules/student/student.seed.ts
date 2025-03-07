@@ -27,6 +27,7 @@ export class StudentSeed {
 
       return true;
     } catch (err: unknown) {
+      console.error(err);
       throw new SeedError('种子数据生成失败');
     }
   }

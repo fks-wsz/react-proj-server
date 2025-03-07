@@ -103,6 +103,7 @@ export class AuthService {
         throw new CommonError(COMMON_RESPONSE_CODE['USER_NOT_FOUND'], '用户不存在');
       }
     } catch (err: unknown) {
+      console.error(err);
       throw new InternalServerException();
     }
   }

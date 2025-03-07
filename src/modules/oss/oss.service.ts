@@ -40,6 +40,7 @@ export class OSSService {
       };
       return params;
     } catch (err: unknown) {
+      console.error(err);
       throw new InternalServerException();
     }
   }

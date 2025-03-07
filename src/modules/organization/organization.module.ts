@@ -10,7 +10,6 @@ import { OrganizationSeed } from './organization.seed';
 import { User } from '../user/entities/user.entity';
 import { Organization } from './entities/organization.entity';
 import { OrgImage } from '../orgImage/entities/org-image.entity';
-import { AppConfigService } from 'src/config/app.config.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Organization, OrgImage])],

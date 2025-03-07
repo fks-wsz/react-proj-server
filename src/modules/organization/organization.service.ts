@@ -40,6 +40,7 @@ export class OrganizationService {
         await this.organizationRepository.save(params);
         return true;
       } catch (err: unknown) {
+        console.error(err);
         throw new InternalServerException();
       }
     } else {
@@ -49,6 +50,7 @@ export class OrganizationService {
         await this.organizationRepository.save(params);
         return true;
       } catch (err: unknown) {
+        console.error(err);
         throw new InternalServerException();
       }
     }
@@ -74,6 +76,7 @@ export class OrganizationService {
         },
       };
     } catch (err: unknown) {
+      console.error(err);
       throw new InternalServerException();
     }
   }
@@ -106,6 +109,7 @@ export class OrganizationService {
       await this.organizationRepository.softDelete(targetOrganization);
       return true;
     } catch (err: unknown) {
+      console.error(err);
       throw new InternalServerException();
     }
   }

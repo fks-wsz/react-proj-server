@@ -25,6 +25,7 @@ export class StudentService {
 
       return targetStudent;
     } catch (err: unknown) {
+      console.error(err);
       throw new InternalServerException();
     }
   }
@@ -49,6 +50,7 @@ export class StudentService {
         },
       };
     } catch (err: unknown) {
+      console.error(err);
       throw new InternalServerException();
     }
   }
@@ -65,6 +67,7 @@ export class StudentService {
       await this.studentRepository.save(mergedStudent);
       return true;
     } catch (err: unknown) {
+      console.error(err);
       throw new InternalServerException();
     }
   }
