@@ -1,5 +1,5 @@
 import * as OSS from 'ali-oss';
-import { configService } from 'src/common/config/service';
+import { appConfigService } from 'src/config/app.config.service';
 
 // OSS Client缓存。
 const clientMemo = new Map<string, OSS>();
@@ -14,9 +14,9 @@ export const createOSSClient = (bucket: string, dir: string): OSS => {
 
   const config = {
     // 配置环境变量ALIBABA_CLOUD_ACCESS_KEY_ID。
-    accessKeyId: configService.get<string>('ACCESS_KEY_ID'),
+    accessKeyId: appConfigService.get<string>('ACCESS_KEY_ID'),
     // 配置环境变量ALIBABA_CLOUD_ACCESS_KEY_SECRET。
-    accessKeySecret: configService.get<string>('ACCESS_KEY_SECRET'),
+    accessKeySecret: appConfigService.get<string>('ACCESS_KEY_SECRET'),
     // 将<YOUR-BUCKET>替换为Bucket名称。
     bucket: bucket,
     // 指定上传到OSS的文件前缀。

@@ -1,18 +1,13 @@
 import { IsNotEmpty } from 'class-validator';
-import {
-  BeforeInsert,
-  BeforeUpdate,
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { CommonEntity } from 'src/common/entities/common.entity';
+import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * 组件
  */
 @Entity('user')
-export class User {
-  @PrimaryGeneratedColumn('uuid')
+export class User extends CommonEntity {
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 
   @Column({
@@ -34,6 +29,13 @@ export class User {
     nullable: true,
   })
   phoneNumber: string;
+
+  @Column({
+    name: 'avatar_url',
+    comment: '头像OSS地址',
+    nullable: true,
+  })
+  avatarUrl: string;
 
   @Column({
     comment: '密码',

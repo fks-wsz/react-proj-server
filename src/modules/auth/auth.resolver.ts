@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 
 import { BaseResultClsType, Result } from 'src/common/dto/result.type';
 import { LoginResult } from './dto/auth.res.type';
+import { createResult } from 'src/shared/utils/response';
 
 @Resolver()
 export class AuthResolver {
@@ -19,7 +20,11 @@ export class AuthResolver {
   async getLoginSmsMsg(
     @Args('phoneNumber', { description: '手机号码' }) phoneNumber: string,
   ): Promise<Result> {
-    return this.authService.setupSendLoginSmsMsg(phoneNumber);
+    const isSuccess = await this.authService.sendLoginSmsMsg(phoneNumber);
+
+    if (isSuccess) {
+      return createResult('SUCCESS', '发送成功');
+    }
   }
 
   /**
@@ -32,6 +37,8 @@ export class AuthResolver {
     @Args('phoneNumber') phoneNumber: string,
     @Args('code') code: string,
   ): Promise<Result> {
-    return this.authService.login(phoneNumber, code);
+    const token = await this.authService.login(phoneNumber, code);
+
+    return createResult('SUCCESS', '登录成功', { token });
   }
 }

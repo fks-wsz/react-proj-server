@@ -10,7 +10,7 @@ export const AppDataSourceOptions: DataSourceOptions = {
   database: 'nestjs-test',
   synchronize: process.env.NODE_ENV !== 'production',
   logging: true,
-  entities: [path.join(__dirname, '**', '*.entity.{ts,js}')],
+  entities: [path.join(__dirname, './modules/**/', '*.entity.{ts,js}')],
   migrations: [path.join(__dirname, 'migrations', '*.{ts,js}')],
   poolSize: 10,
   connectorPackage: 'mysql2',
