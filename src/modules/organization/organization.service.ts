@@ -3,15 +3,15 @@ import { Injectable } from '@nestjs/common';
 import { CommonError } from 'src/common/exceptions/errors';
 import { InternalServerException } from 'src/common/exceptions/http-exceptions';
 
-import { UserService } from '../user/user.service';
 import { OrgImageService } from '../orgImage/orgImage.service';
+import { UserService } from '../user/user.service';
 
-import { Organization } from './entities/organization.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, Repository } from 'typeorm';
-import { Page } from 'src/common/dto/page.type';
-import { ORG_ERROR_CODE } from './utils/response';
 import { COMMON_RESPONSE_CODE } from 'src/common/constants/response';
+import { Page } from 'src/common/dto/page.type';
+import { DeepPartial, Repository } from 'typeorm';
+import { Organization } from './entities/organization.entity';
+import { ORG_ERROR_CODE } from './utils/response';
 
 @Injectable()
 export class OrganizationService {

@@ -35,10 +35,9 @@ export class CommonEntity {
   })
   updatedBy: string;
 
-  @DeleteDateColumn()
   @IsDate()
   @IsOptional()
-  @Column({
+  @DeleteDateColumn({
     name: 'deleted_at',
     comment: '删除时间',
     type: 'timestamp',
@@ -46,13 +45,13 @@ export class CommonEntity {
   })
   deletedAt: Date;
 
+  @IsOptional()
   @Column({
     name: 'deleted_by',
     comment: '删除操作人',
     type: 'varchar',
     nullable: true,
   })
-  @IsOptional()
   deletedBy: string;
 
   @BeforeInsert()
