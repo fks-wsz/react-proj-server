@@ -51,7 +51,7 @@ export class OrganizationResolver {
     if (organization) {
       return createResult('SUCCESS', '查询成功', organization);
     } else {
-      return createResult('SUCCESS', '查询成功', null);
+      return createResult('SUCCESS', '门店不存在', null);
     }
   }
 

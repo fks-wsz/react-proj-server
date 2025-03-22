@@ -1,10 +1,10 @@
 import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
-import { CommonType } from 'src/common/dto/common.type';
+import { CommonEntity } from 'src/common/entities/common.entity';
 import { OrgImage } from 'src/modules/orgImage/entities/org-image.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('organization')
-export class Organization extends CommonType {
+export class Organization extends CommonEntity {
   @PrimaryGeneratedColumn('uuid', { name: 'id' })
   id: string;
 

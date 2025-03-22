@@ -87,6 +87,7 @@ export class OrganizationService {
       where: { id },
       relations: ['orgFrontImg', 'orgRoomImg', 'orgOtherImg'],
     });
+
     if (targetOrganization) {
       return targetOrganization;
     }
@@ -106,7 +107,7 @@ export class OrganizationService {
 
     try {
       targetOrganization.deletedBy = operatorId;
-      await this.organizationRepository.softDelete(targetOrganization);
+      await this.organizationRepository.softDelete(targetOrganization.id);
       return true;
     } catch (err: unknown) {
       console.error(err);

@@ -32,7 +32,8 @@ export class OrganizationSeed {
         org.latitude = faker.location.latitude().toString();
         org.phoneNumber = faker.phone.number();
         org.orgFrontImg = [{ url: faker.image.url() }, { url: faker.image.url() }] as OrgImage[];
-
+        org.orgOtherImg = [{ url: faker.image.url() }, { url: faker.image.url() }] as OrgImage[];
+        org.orgRoomImg = [{ url: faker.image.url() }, { url: faker.image.url() }] as OrgImage[];
         return org;
       });
 

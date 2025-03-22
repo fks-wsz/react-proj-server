@@ -2,8 +2,8 @@ import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
 export class OrgImageInput {
-  @Field({ description: '图片ID', nullable: false })
-  id: string;
+  @Field({ description: '图片ID', nullable: true })
+  id?: string;
 
   @Field({ description: '图片地址', nullable: false })
   url: string;

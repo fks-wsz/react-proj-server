@@ -36,7 +36,7 @@ export class AuthResolver {
   async login(
     @Args('phoneNumber') phoneNumber: string,
     @Args('code') code: string,
-  ): Promise<Result> {
+  ): Promise<Result<{ token: string }>> {
     const token = await this.authService.login(phoneNumber, code);
 
     return createResult('SUCCESS', '登录成功', { token });
