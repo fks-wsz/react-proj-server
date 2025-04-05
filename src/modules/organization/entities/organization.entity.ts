@@ -1,13 +1,12 @@
 import { IsNotEmpty, IsString, IsUrl } from 'class-validator';
-import { CommonEntity } from 'src/common/entities/common.entity';
-import { OrgImage } from 'src/modules/orgImage/entities/org-image.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import CommonEntity from '../../../common/entities/common.entity';
+import { OrgImage } from '../../orgImage/entities/org-image.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
+import { Course } from '@/modules/course/entities/course.entity';
+import { Card } from '@/modules/card/entities/card.entity';
 
 @Entity('organization')
 export class Organization extends CommonEntity {
-  @PrimaryGeneratedColumn('uuid', { name: 'id' })
-  id: string;
-
   @IsUrl()
   @IsNotEmpty()
   @Column({
@@ -120,4 +119,14 @@ export class Organization extends CommonEntity {
     cascade: true,
   })
   orgOtherImg?: OrgImage[];
+
+  @OneToMany(() => Course, (course) => course.org, {
+    cascade: true,
+  })
+  courses?: Course[];
+
+  @OneToMany(() => Card, (card) => card.org, {
+    cascade: true,
+  })
+  cards: Card[];
 }

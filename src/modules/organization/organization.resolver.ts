@@ -1,21 +1,21 @@
-import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
+import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 
-import { OrganizationService } from './organization.service';
 import { UserService } from '../user/user.service';
+import { OrganizationService } from './organization.service';
 
-import { GqlAuthGuard } from 'src/common/guards/auth.guard';
 import { CurUserId } from 'src/common/decorators/current-user.decorator';
+import { GqlAuthGuard } from 'src/common/guards/auth.guard';
 
 import { createResult, createResults } from 'src/shared/utils/response';
 
-import { Organization } from './entities/organization.entity';
-import { OrganizationResult, OrganizationResults } from './dto/organization.res.type';
+import { DevOnly } from 'src/common/decorators/is-dev-only.decorator';
+import { PageInput } from 'src/common/dto/page.input';
 import { BaseResultClsType, Result, Results } from 'src/common/dto/result.type';
 import { OrganizationInput } from './dto/organization.input';
-import { PageInput } from 'src/common/dto/page.input';
+import { OrganizationResult, OrganizationResults } from './dto/organization.res.type';
+import { Organization } from './entities/organization.entity';
 import { OrganizationSeed } from './organization.seed';
-import { DevOnly } from 'src/common/decorators/is-dev-only.decorator';
 
 @Resolver()
 @UseGuards(GqlAuthGuard)
@@ -39,9 +39,16 @@ export class OrganizationResolver {
   }
 
   @Query(() => OrganizationResults)
-  async getOrganizations(@Args('page') pageIpt: PageInput): Promise<Results<Organization>> {
+  async getOrganizations(
+    @Args('page') pageIpt: PageInput,
+    @Args('organizationName', { nullable: true }) organizationName?: string,
+  ): Promise<Results<Organization>> {
     const { pageNum, pageSize } = pageIpt;
-    const { data, page } = await this.organizationService.getOrganizations(pageNum, pageSize);
+    const { data, page } = await this.organizationService.getOrganizations(
+      pageNum,
+      pageSize,
+      organizationName,
+    );
     return createResults('SUCCESS', '查询成功', data, page);
   }
 
@@ -56,8 +63,11 @@ export class OrganizationResolver {
   }
 
   @Mutation(() => BaseResultClsType)
-  deleteOrganization(@Args('id') orgId: string, @CurUserId() operatorId: string) {
-    return this.organizationService.deleteOrganization(orgId, operatorId);
+  async deleteOrganization(@Args('id') orgId: string, @CurUserId() operatorId: string) {
+    const delSuccess = await this.organizationService.deleteOrganization(orgId, operatorId);
+    if (delSuccess) {
+      return createResult('SUCCESS', '删除机构成功');
+    }
   }
 
   @DevOnly()

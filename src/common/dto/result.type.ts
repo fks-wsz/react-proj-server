@@ -16,6 +16,8 @@ export type Results<T> = {
   page: Page;
 } & BaseResult;
 
+export type ResultsWithoutPage<T> = Omit<Results<T>, 'page'>;
+
 export const createResultClassType = <T extends object>(
   ItemType?: ClassType<T>,
 ): ClassType<Result<T>> => {
@@ -48,6 +50,22 @@ export const createResultsClassType = <T extends object>(
   }
 
   return Results;
+};
+
+export const createResultsClassTypeWithoutPage = <T extends object>(
+  ItemType: ClassType<T>,
+): ClassType<ResultsWithoutPage<T>> => {
+  @ObjectType()
+  class ResultsWithoutPage {
+    @Field(() => Int, { description: '状态码' })
+    code: number;
+    @Field(() => String)
+    message: string;
+    @Field(() => [ItemType])
+    data: T[];
+  }
+
+  return ResultsWithoutPage;
 };
 
 export const createBaseResultClassType = (): ClassType<BaseResult> => {

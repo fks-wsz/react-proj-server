@@ -1,11 +1,8 @@
-import { CommonEntity } from 'src/common/entities/common.entity';
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import CommonEntity from '../../../common/entities/common.entity';
+import { BeforeInsert, Column, Entity } from 'typeorm';
 
 @Entity()
 export class Student extends CommonEntity {
-  @PrimaryGeneratedColumn('uuid', { name: 'id' })
-  id: string;
-
   @Column({
     name: 'nickname',
     comment: '昵称',
@@ -42,7 +39,7 @@ export class Student extends CommonEntity {
   avatarUrl: string;
 
   @Column({
-    name: 'accout',
+    name: 'account',
     comment: '账户名',
     type: 'varchar',
     nullable: false,

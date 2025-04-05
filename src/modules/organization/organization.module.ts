@@ -3,22 +3,16 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { OrganizationService } from './organization.service';
 import { OrganizationResolver } from './organization.resolver';
-import { UserService } from '../user/user.service';
 import { OrgImageService } from '../orgImage/orgImage.service';
 import { OrganizationSeed } from './organization.seed';
 
-import { User } from '../user/entities/user.entity';
 import { Organization } from './entities/organization.entity';
 import { OrgImage } from '../orgImage/entities/org-image.entity';
+import { UserModule } from '../user/user.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Organization, OrgImage])],
-  providers: [
-    OrganizationResolver,
-    OrganizationService,
-    UserService,
-    OrgImageService,
-    OrganizationSeed,
-  ],
+  imports: [TypeOrmModule.forFeature([Organization, OrgImage]), UserModule],
+  providers: [OrganizationResolver, OrganizationService, OrgImageService, OrganizationSeed],
+  exports: [OrganizationService],
 })
 export class OrganizationModule {}

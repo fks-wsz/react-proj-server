@@ -4,6 +4,8 @@ export enum COMMON_RESPONSE_CODE {
   SUCCESS = 200,
   /** 用户不存在 */
   USER_NOT_FOUND = 10000,
+  /** 门店不存在 */
+  ORGANIZATION_NOT_FOUND = 20000,
   /** 服务器错误 */
   SERVER_ERROR = 50000,
   /** 未知错误 */

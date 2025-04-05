@@ -1,15 +1,12 @@
 import { IsNotEmpty } from 'class-validator';
-import { CommonEntity } from 'src/common/entities/common.entity';
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import CommonEntity from '../../../common/entities/common.entity';
+import { BeforeInsert, BeforeUpdate, Column, Entity } from 'typeorm';
 
 /**
  * 组件
  */
 @Entity('user')
 export class User extends CommonEntity {
-  @PrimaryGeneratedColumn('uuid', { name: 'id' })
-  id: string;
-
   @Column({
     comment: '昵称',
     default: '',

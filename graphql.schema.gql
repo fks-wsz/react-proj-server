@@ -143,6 +143,25 @@ type StudentResults {
   page: Page!
 }
 
+type CourseReserverTimeItemType {
+  """键(用于前端)"""
+  key: String!
+
+  """开始时间"""
+  startTime: String!
+
+  """结束时间"""
+  endTime: String!
+}
+
+type CourseReserverTimeDayType {
+  """周几"""
+  week: String!
+
+  """时间段"""
+  reserverTimes: [CourseReserverTimeItemType!]!
+}
+
 type OrgImageType {
   """图片ID"""
   id: String
@@ -234,6 +253,129 @@ type OrganizationResults {
   page: Page!
 }
 
+type CourseType {
+  """创建时间"""
+  createdAt: DateTime!
+
+  """创建人"""
+  createdBy: String
+
+  """更新时间"""
+  updatedAt: DateTime
+
+  """更新人"""
+  updatedBy: String
+
+  """删除时间"""
+  deletedAt: DateTime
+
+  """删除人"""
+  deletedBy: String
+
+  """id"""
+  id: String!
+
+  """课程名称"""
+  name: String!
+
+  """课程简介"""
+  description: String
+
+  """适宜人群"""
+  fitPeople: String!
+
+  """适合基础"""
+  baseAbility: String!
+
+  """课程节数"""
+  sections: Float!
+
+  """单节课时长(min)"""
+  sectionDuration: Float!
+
+  """学员数量"""
+  stuCount: Float!
+
+  """预约信息"""
+  reserveInfo: String
+
+  """退款信息"""
+  refundInfo: String
+
+  """其他说明信息"""
+  otherInfo: String
+
+  """可约时间"""
+  reserverTimes: [CourseReserverTimeDayType!]
+}
+
+type CourseResult {
+  """状态码"""
+  code: Int!
+  message: String!
+  data: CourseType
+}
+
+type CourseResults {
+  """状态码"""
+  code: Int!
+  message: String!
+  data: [CourseType!]!
+  page: Page!
+}
+
+type CardObjType {
+  """创建时间"""
+  createdAt: DateTime!
+
+  """创建人"""
+  createdBy: String
+
+  """更新时间"""
+  updatedAt: DateTime
+
+  """更新人"""
+  updatedBy: String
+
+  """删除时间"""
+  deletedAt: DateTime
+
+  """删除人"""
+  deletedBy: String
+
+  """id"""
+  id: String!
+
+  """消费卡类型"""
+  type: String!
+
+  """剩余次数"""
+  times: Float!
+
+  """剩余有效期(天)"""
+  days: Float!
+
+  """所属课程"""
+  course: CourseType!
+
+  """所属门店"""
+  org: OrganizationType!
+}
+
+type CardResult {
+  """状态码"""
+  code: Int!
+  message: String!
+  data: CardObjType
+}
+
+type CardResultsWithoutPage {
+  """状态码"""
+  code: Int!
+  message: String!
+  data: [CardObjType!]!
+}
+
 type Query {
   find(id: String!): UserResult!
   getUserInfo: UserResult!
@@ -250,9 +392,23 @@ type Query {
   findStudentById(id: String!): StudentResult!
   findStudents(page: PageInput!): StudentResults!
   seedStudents: BaseResultClsType!
-  getOrganizations(page: PageInput!): OrganizationResults!
+  getOrganizations(page: PageInput!, organizationName: String): OrganizationResults!
   getOrganization(id: String!): OrganizationResult!
   seedOrganizations(count: Float!): BaseResultClsType!
+
+  """获取课程列表"""
+  getCourses(page: PageInput!, name: String): CourseResults!
+
+  """查询某门课程"""
+  getCourse(id: String!): CourseResult!
+  seedCourses(count: Float!): BaseResultClsType!
+
+  """获取消费卡列表(不分页)"""
+  getCards(courseId: String!, name: String): CardResultsWithoutPage!
+
+  """获取消费卡详情"""
+  getCard(id: String!): CardResult!
+  seedCards(params: SeedCardParamsInput!): BaseResultClsType!
 }
 
 input PageInput {
@@ -263,6 +419,14 @@ input PageInput {
   pageSize: Float!
 }
 
+input SeedCardParamsInput {
+  """数量"""
+  count: Float!
+
+  """课程ID"""
+  courseId: String!
+}
+
 type Mutation {
   create(params: UserInput!): BaseResultClsType!
   updateUserInfo(id: String!, params: UserInput!): BaseResultClsType!
@@ -270,6 +434,16 @@ type Mutation {
   updateStudent(params: StudentInput!): BaseResultClsType!
   commitOrganization(params: OrganizationInput!): BaseResultClsType!
   deleteOrganization(id: String!): BaseResultClsType!
+
+  """创建/更新课程"""
+  commitCourse(params: PartialCourseInput!): BaseResultClsType!
+
+  """删除课程"""
+  deleteCourse(id: String!): BaseResultClsType!
+  commitCard(params: CardInput!): BaseResultClsType!
+
+  """删除消费卡"""
+  deleteCard(id: String!): BaseResultClsType!
 }
 
 input UserInput {
@@ -299,7 +473,7 @@ input StudentInput {
 
 input OrganizationInput {
   """id"""
-  id: String!
+  id: String
 
   """营业执照"""
   businessLicenseUrl: String!
@@ -353,4 +527,87 @@ input OrgImageInput {
 
   """备注"""
   remark: String
+}
+
+input PartialCourseInput {
+  """id"""
+  id: String
+
+  """课程名称"""
+  name: String
+
+  """课程简介"""
+  description: String
+
+  """适宜人群"""
+  fitPeople: String
+
+  """适合基础"""
+  baseAbility: String
+
+  """课程节数"""
+  sections: Float
+
+  """单节课时长(min)"""
+  sectionDuration: Float
+
+  """学员数量"""
+  stuCount: Float
+
+  """预约信息"""
+  reserveInfo: String
+
+  """退款信息"""
+  refundInfo: String
+
+  """其他说明信息"""
+  otherInfo: String
+
+  """可约时间段"""
+  reserverTimes: [CourseReserverTimeDayInput!]
+}
+
+input CourseReserverTimeDayInput {
+  """周几"""
+  week: String!
+
+  """时间段"""
+  reserverTimes: [CourseReserverTimeItemInput!]!
+}
+
+input CourseReserverTimeItemInput {
+  """键(用于前端)"""
+  key: String!
+
+  """开始时间"""
+  startTime: String!
+
+  """结束时间"""
+  endTime: String!
+}
+
+input CardInput {
+  """id"""
+  id: String
+
+  """消费卡名称"""
+  name: String!
+
+  """消费卡类型"""
+  type: CardType!
+
+  """剩余次数"""
+  times: Float
+
+  """剩余有效期(天)"""
+  days: Float
+
+  """课程ID"""
+  courseId: String!
+}
+
+"""消费卡类型"""
+enum CardType {
+  TIMES
+  DURATION
 }

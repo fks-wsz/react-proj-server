@@ -3,8 +3,8 @@ import { OrgImageInput } from 'src/modules/orgImage/dto/org-image.input';
 
 @InputType()
 export class OrganizationInput {
-  @Field({ description: 'id' })
-  id: string;
+  @Field({ description: 'id', nullable: true })
+  id?: string;
 
   @Field({ description: '营业执照' })
   businessLicenseUrl: string;

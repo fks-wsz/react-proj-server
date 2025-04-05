@@ -9,7 +9,7 @@ import { UserService } from '../user/user.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { COMMON_RESPONSE_CODE } from 'src/common/constants/response';
 import { Page } from 'src/common/dto/page.type';
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, FindOptionsWhere, Like, Repository } from 'typeorm';
 import { Organization } from './entities/organization.entity';
 import { ORG_ERROR_CODE } from './utils/response';
 
@@ -60,11 +60,17 @@ export class OrganizationService {
   async getOrganizations(
     pageNum: number,
     pageSize: number,
+    organizationName?: string,
   ): Promise<{ data: Organization[]; page: Page }> {
     try {
+      const where: FindOptionsWhere<Organization> = {};
+      if (organizationName) {
+        where.organizationName = Like(`%${organizationName}%`);
+      }
       const [organizations, total] = await this.organizationRepository.findAndCount({
         skip: (pageNum - 1) * pageSize,
         take: pageSize,
+        where,
         relations: ['orgFrontImg', 'orgRoomImg', 'orgOtherImg'],
       });
       return {

@@ -1,7 +1,17 @@
 import { IsDate, IsOptional, validateOrReject } from 'class-validator';
-import { BeforeInsert, BeforeUpdate, Column, DeleteDateColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  DeleteDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
-export class CommonEntity {
+export default abstract class CommonEntity {
+  @PrimaryGeneratedColumn('uuid', { name: 'id' })
+  id: string;
+
   @Column({
     name: 'created_at',
     comment: '创建时间',
@@ -19,10 +29,9 @@ export class CommonEntity {
   })
   createdBy: string;
 
-  @Column({
+  @UpdateDateColumn({
     name: 'updated_at',
     comment: '更新时间',
-    type: 'timestamp',
     nullable: true,
   })
   updatedAt: Date;
@@ -64,7 +73,6 @@ export class CommonEntity {
 
   @BeforeUpdate()
   async beforeUpdate() {
-    this.updatedAt = new Date();
     await validateOrReject(this, { skipMissingProperties: true });
   }
 }
