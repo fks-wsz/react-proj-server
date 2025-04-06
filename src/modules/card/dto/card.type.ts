@@ -2,13 +2,17 @@ import { CourseType } from '@/modules/course/dto/course.type';
 import { OrganizationType } from '@/modules/organization/dto/organization.type';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { CommonType } from 'src/common/dto/common.type';
+import { CardType } from '../types';
 
 @ObjectType()
 export class CardObjType extends CommonType {
   @Field({ description: 'id' })
   id: string;
 
-  @Field({ description: '消费卡类型' })
+  @Field({ description: '名称' })
+  name: string;
+
+  @Field(() => CardType, { description: '消费卡类型' })
   type: string;
 
   @Field({

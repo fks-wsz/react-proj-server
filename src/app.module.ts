@@ -1,6 +1,5 @@
 import * as path from 'path';
 
-import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { AppController } from './app.controller';
 
@@ -24,6 +23,8 @@ import { ApolloDriver } from '@nestjs/apollo';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 
 // 模块
+import { Module } from '@nestjs/common';
+import { ProductModule } from './modules/product/product.module';
 import { UserModule } from 'src/modules/user/user.module';
 import { OSSModule } from 'src/modules/oss/oss.module';
 import { AuthModule } from 'src/modules/auth/auth.module';
@@ -69,6 +70,7 @@ import { CardModule } from './modules/card/card.module';
     OrganizationModule,
     CourseModule,
     CardModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [

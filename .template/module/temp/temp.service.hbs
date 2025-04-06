@@ -1,0 +1,108 @@
+import { Injectable } from '@nestjs/common';
+
+import { CommonError } from 'src/common/exceptions/errors';
+import { InternalServerException } from 'src/common/exceptions/http-exceptions';
+
+import { InjectRepository } from '@nestjs/typeorm';
+import { Page } from 'src/common/dto/page.type';
+import { DeepPartial, FindOptionsWhere, Like, Repository } from 'typeorm';
+import { {{pascalCase moduleName}} } from './entities/{{kebabCase moduleName}}.entity';
+import { {{constantCase moduleName}}_ERROR_CODE } from './utils/response'
+
+@Injectable()
+export class {{pascalCase moduleName}}Service {
+  constructor(
+    @InjectRepository({{pascalCase moduleName}})
+    private readonly {{camelCase moduleName}}Repository: Repository<{{pascalCase moduleName}}>,
+  ) {}
+
+  async commit{{pascalCase moduleName}}(params: DeepPartial<{{pascalCase moduleName}}>, operatorId: string): Promise<boolean> {
+    const { id } = params;
+    if (id) {
+      // 更新
+      const target{{pascalCase moduleName}} = await this.{{camelCase moduleName}}Repository.findOne({ where: { id } });
+      if (!target{{pascalCase moduleName}}) {
+        throw new CommonError({{constantCase moduleName}}_ERROR_CODE['{{moduleNoteName}}'], '未找到{{moduleNoteName}}信息');
+      }
+      try {
+        params.updatedBy = operatorId;
+        await this.{{camelCase moduleName}}Repository.save(params);
+        return true;
+      } catch (err: unknown) {
+        console.error(err);
+        throw new InternalServerException();
+      }
+    } else {
+      // 创建
+      try {
+        params.createdBy = operatorId;
+        await this.{{camelCase moduleName}}Repository.save(params);
+        return true;
+      } catch (err: unknown) {
+        console.error(err);
+        throw new InternalServerException();
+      }
+    }
+  }
+
+  /** 获取{{moduleNoteName}}列表 */
+  async get{{pascalCase moduleName}}s(
+    pageNum: number,
+    pageSize: number,
+    name?: string,
+  ): Promise<{ data: {{pascalCase moduleName}}[]; page: Page }> {
+    try {
+      const where: FindOptionsWhere<{{pascalCase moduleName}}> = {};
+      // todo: 可选名称模糊查询
+      if (name) {
+        where.name = Like(`%${name}%`);
+      }
+      const [{{camelCase moduleName}}s, total] = await this.{{camelCase moduleName}}Repository.findAndCount({
+        skip: (pageNum - 1) * pageSize,
+        take: pageSize,
+        where,
+        // relations: ['{{moduleNoteName}}'],
+      });
+      return {
+        data: {{camelCase moduleName}}s,
+        page: {
+          pageNum,
+          pageSize,
+          total,
+        },
+      };
+    } catch (err: unknown) {
+      console.error(err);
+      throw new InternalServerException();
+    }
+  }
+
+  /** 获取{{moduleNoteName}}信息 */
+  async get{{pascalCase moduleName}}(id: string): Promise<{{pascalCase moduleName}}> {
+    const target{{pascalCase moduleName}} = await this.{{camelCase moduleName}}Repository.findOne({
+      where: { id },
+      // relations: ['{{moduleNoteName}}'],
+    });
+
+    if (target{{pascalCase moduleName}}) {
+      return target{{pascalCase moduleName}};
+    }
+  }
+
+  /** 删除{{moduleNoteName}} */
+  async delete{{pascalCase moduleName}}(id: string, operatorId: string): Promise<boolean> {
+    const target{{pascalCase moduleName}} = await this.get{{pascalCase moduleName}}(id);
+    if (!target{{pascalCase moduleName}}) {
+      throw new CommonError({{constantCase moduleName}}_ERROR_CODE['{{moduleNoteName}}'], '未找到{{moduleNoteName}}信息');
+    }
+
+    try {
+      target{{pascalCase moduleName}}.deletedBy = operatorId;
+      await this.{{camelCase moduleName}}Repository.softDelete(target{{pascalCase moduleName}}.id);
+      return true;
+    } catch (err: unknown) {
+      console.error(err);
+      throw new InternalServerException();
+    }
+  }
+}

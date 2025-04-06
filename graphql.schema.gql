@@ -346,8 +346,11 @@ type CardObjType {
   """id"""
   id: String!
 
+  """名称"""
+  name: String!
+
   """消费卡类型"""
-  type: String!
+  type: CardType!
 
   """剩余次数"""
   times: Float!
@@ -360,6 +363,12 @@ type CardObjType {
 
   """所属门店"""
   org: OrganizationType!
+}
+
+"""消费卡类型"""
+enum CardType {
+  TIMES
+  DURATION
 }
 
 type CardResult {
@@ -604,10 +613,4 @@ input CardInput {
 
   """课程ID"""
   courseId: String!
-}
-
-"""消费卡类型"""
-enum CardType {
-  TIMES
-  DURATION
 }

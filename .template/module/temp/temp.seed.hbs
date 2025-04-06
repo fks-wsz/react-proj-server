@@ -3,27 +3,27 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { Temp } from './entities/temp.entity';
+import { {{pascalCase moduleName}} } from './entities/{{kebabCase moduleName}}.entity';
 import { InternalServerException } from 'src/common/exceptions/http-exceptions';
 
 @Injectable()
-export class TempSeed {
+export class {{pascalCase moduleName}}Seed {
   constructor(
-    @InjectRepository(Temp)
-    private readonly tempRepository: Repository<Temp>,
+    @InjectRepository({{pascalCase moduleName}})
+    private readonly {{camelCase moduleName}}Repository: Repository<{{pascalCase moduleName}}>,
   ) {}
 
-  async seedTemps(count: number): Promise<boolean> {
+  async seed{{pascalCase moduleName}}s(count: number): Promise<boolean> {
     try {
       const data = new Array(count).fill(null).map(() => {
-        const temp = new Temp();
-        // faker temp properties
+        const {{camelCase moduleName}} = new {{pascalCase moduleName}}();
+        // faker {{camelCase moduleName}} properties
         console.warn('Faker is not used!');
         console.log(faker.food.fruit());
-        return temp;
+        return {{camelCase moduleName}};
       });
 
-      await this.tempRepository.save(data);
+      await this.{{camelCase moduleName}}Repository.save(data);
 
       return true;
     } catch (err: unknown) {
