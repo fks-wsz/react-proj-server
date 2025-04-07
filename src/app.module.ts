@@ -58,7 +58,7 @@ import { CardModule } from './modules/card/card.module';
         return {
           message: error.message,
           path: error.path,
-          errors: error?.extensions?.originalError || '',
+          errors_detail: error?.extensions?.originalError || '',
         };
       },
     }),

@@ -35,10 +35,10 @@ export class ProductResolver {
   @Query(() => ProductResults)
   async getProducts(
     @Args('page') pageIpt: PageInput,
-    @Args('productName', { nullable: true }) productName?: string,
+    @Args('name', { nullable: true }) name?: string,
   ): Promise<Results<Product>> {
     const { pageNum, pageSize } = pageIpt;
-    const { data, page } = await this.productService.getProducts(pageNum, pageSize, productName);
+    const { data, page } = await this.productService.getProducts(pageNum, pageSize, name);
     return createResults('SUCCESS', '查询成功', data, page);
   }
 
@@ -48,22 +48,22 @@ export class ProductResolver {
     if (product) {
       return createResult('SUCCESS', '查询成功', product);
     } else {
-      return createResult('SUCCESS', 'xxx不存在', null);
+      return createResult('SUCCESS', '商品不存在', null);
     }
   }
 
   @Mutation(() => BaseResultClsType)
   async deleteProduct(@Args('id') id: string, @CurUserId() operatorId: string) {
-    const delSuccess = await this.productService.deleteProduct(id, operatorId);
+    const delSuccess = await this.productService.deleteProductById(id, operatorId);
     if (delSuccess) {
-      return createResult('SUCCESS', '删除xxx成功');
+      return createResult('SUCCESS', '删除商品成功');
     }
   }
 
   @DevOnly()
   @Query(() => BaseResultClsType)
-  async seedProducts(@Args('count') count: number) {
-    const isSuccess = await this.productSeed.seedProducts(count);
+  async seedProducts(@Args('orgId') orgId: string, @Args('count') count: number) {
+    const isSuccess = await this.productSeed.seedProducts(orgId, count);
     if (isSuccess) {
       return createResult('SUCCESS', '种子数据生成成功');
     }

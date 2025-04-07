@@ -90,7 +90,7 @@ export class ProductService {
   }
 
   /** 删除商品 */
-  async deleteProduct(id: string, operatorId: string): Promise<boolean> {
+  async deleteProductById(id: string, operatorId: string): Promise<boolean> {
     const targetProduct = await this.getProduct(id);
     if (!targetProduct) {
       throw new CommonError(PRODUCT_ERROR_CODE['商品'], '未找到商品信息');

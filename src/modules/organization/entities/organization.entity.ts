@@ -4,6 +4,7 @@ import { OrgImage } from '../../orgImage/entities/org-image.entity';
 import { Column, Entity, OneToMany } from 'typeorm';
 import { Course } from '@/modules/course/entities/course.entity';
 import { Card } from '@/modules/card/entities/card.entity';
+import { Product } from '@/modules/product/entities/product.entity';
 
 @Entity('organization')
 export class Organization extends CommonEntity {
@@ -129,4 +130,9 @@ export class Organization extends CommonEntity {
     cascade: true,
   })
   cards: Card[];
+
+  @OneToMany(() => Product, (product) => product.org, {
+    cascade: true,
+  })
+  products: Product[];
 }

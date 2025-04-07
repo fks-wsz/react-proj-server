@@ -2,6 +2,194 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CourseReserverTimeItemType {
+  """键(用于前端)"""
+  key: String!
+
+  """开始时间"""
+  startTime: String!
+
+  """结束时间"""
+  endTime: String!
+}
+
+type CourseReserverTimeDayType {
+  """周几"""
+  week: String!
+
+  """时间段"""
+  reserverTimes: [CourseReserverTimeItemType!]!
+}
+
+type Page {
+  """总数"""
+  total: Int!
+
+  """页数"""
+  pageNum: Int!
+
+  """页大小"""
+  pageSize: Int!
+}
+
+type BaseResultClsType {
+  """状态码"""
+  code: Int!
+  message: String!
+}
+
+type OrgImageType {
+  """图片ID"""
+  id: String
+
+  """图片地址"""
+  url: String!
+
+  """备注"""
+  remark: String
+}
+
+type OrganizationType {
+  """创建时间"""
+  createdAt: DateTime!
+
+  """创建人"""
+  createdBy: String
+
+  """更新时间"""
+  updatedAt: DateTime
+
+  """更新人"""
+  updatedBy: String
+
+  """删除时间"""
+  deletedAt: DateTime
+
+  """删除人"""
+  deletedBy: String
+
+  """id"""
+  id: String!
+
+  """营业执照"""
+  businessLicenseUrl: String!
+
+  """身份证正面"""
+  idCardFrontUrl: String!
+
+  """身份证反面"""
+  idCardBackUrl: String!
+
+  """标签 逗号分隔"""
+  tags: String
+
+  """机构简介"""
+  description: String
+
+  """机构名称"""
+  organizationName: String!
+
+  """门店logo"""
+  logoUrl: String
+
+  """地址"""
+  address: String
+
+  """经度"""
+  longitude: String
+
+  """经度"""
+  latitude: String
+
+  """电话"""
+  phoneNumber: String
+
+  """门店图片"""
+  orgFrontImg: [OrgImageType!]
+
+  """房间图片"""
+  orgRoomImg: [OrgImageType!]
+
+  """其他图片"""
+  orgOtherImg: [OrgImageType!]
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type PartialProductType {
+  """创建时间"""
+  createdAt: DateTime
+
+  """创建人"""
+  createdBy: String
+
+  """更新时间"""
+  updatedAt: DateTime
+
+  """更新人"""
+  updatedBy: String
+
+  """删除时间"""
+  deletedAt: DateTime
+
+  """删除人"""
+  deletedBy: String
+
+  """id"""
+  id: String
+
+  """商品名称"""
+  name: String
+
+  """商品介绍"""
+  desc: String
+
+  """库存总数"""
+  stock: Float
+
+  """当前库存"""
+  curStock: Float
+
+  """卖出去多少"""
+  buyNum: Float
+
+  """每人限购数"""
+  limitBuyNumPerson: Float
+
+  """封面图"""
+  coverUrl: String
+
+  """banner图"""
+  bannerUrl: String
+
+  """原价"""
+  originalPrice: Float
+
+  """优惠价"""
+  specialPrice: Float
+
+  """门店信息"""
+  org: OrganizationType
+}
+
+type ProductResult {
+  """状态码"""
+  code: Int!
+  message: String!
+  data: PartialProductType
+}
+
+type ProductResults {
+  """状态码"""
+  code: Int!
+  message: String!
+  data: [PartialProductType!]!
+  page: Page!
+}
+
 type UserType {
   """用户ID"""
   id: String!
@@ -20,23 +208,6 @@ type UserType {
 
   """头像OSS地址"""
   avatarUrl: String
-}
-
-type Page {
-  """总数"""
-  total: Int!
-
-  """页数"""
-  pageNum: Int!
-
-  """页大小"""
-  pageSize: Int!
-}
-
-type BaseResultClsType {
-  """状态码"""
-  code: Int!
-  message: String!
 }
 
 type UserResult {
@@ -123,11 +294,6 @@ type StudentType {
   avatarUrl: String
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type StudentResult {
   """状态码"""
   code: Int!
@@ -141,101 +307,6 @@ type StudentResults {
   message: String!
   data: [StudentType!]!
   page: Page!
-}
-
-type CourseReserverTimeItemType {
-  """键(用于前端)"""
-  key: String!
-
-  """开始时间"""
-  startTime: String!
-
-  """结束时间"""
-  endTime: String!
-}
-
-type CourseReserverTimeDayType {
-  """周几"""
-  week: String!
-
-  """时间段"""
-  reserverTimes: [CourseReserverTimeItemType!]!
-}
-
-type OrgImageType {
-  """图片ID"""
-  id: String
-
-  """图片地址"""
-  url: String!
-
-  """备注"""
-  remark: String
-}
-
-type OrganizationType {
-  """创建时间"""
-  createdAt: DateTime!
-
-  """创建人"""
-  createdBy: String
-
-  """更新时间"""
-  updatedAt: DateTime
-
-  """更新人"""
-  updatedBy: String
-
-  """删除时间"""
-  deletedAt: DateTime
-
-  """删除人"""
-  deletedBy: String
-
-  """id"""
-  id: String!
-
-  """营业执照"""
-  businessLicenseUrl: String!
-
-  """身份证正面"""
-  idCardFrontUrl: String!
-
-  """身份证反面"""
-  idCardBackUrl: String!
-
-  """标签 逗号分隔"""
-  tags: String
-
-  """机构简介"""
-  description: String
-
-  """机构名称"""
-  organizationName: String!
-
-  """门店logo"""
-  logoUrl: String
-
-  """地址"""
-  address: String
-
-  """经度"""
-  longitude: String
-
-  """经度"""
-  latitude: String
-
-  """电话"""
-  phoneNumber: String
-
-  """门店图片"""
-  orgFrontImg: [OrgImageType!]
-
-  """房间图片"""
-  orgRoomImg: [OrgImageType!]
-
-  """其他图片"""
-  orgOtherImg: [OrgImageType!]
 }
 
 type OrganizationResult {
@@ -418,6 +489,9 @@ type Query {
   """获取消费卡详情"""
   getCard(id: String!): CardResult!
   seedCards(params: SeedCardParamsInput!): BaseResultClsType!
+  getProducts(page: PageInput!, name: String): ProductResults!
+  getProduct(id: String!): ProductResult!
+  seedProducts(orgId: String!, count: Float!): BaseResultClsType!
 }
 
 input PageInput {
@@ -453,6 +527,8 @@ type Mutation {
 
   """删除消费卡"""
   deleteCard(id: String!): BaseResultClsType!
+  commitProduct(params: ProductInput!): BaseResultClsType!
+  deleteProduct(id: String!): BaseResultClsType!
 }
 
 input UserInput {
@@ -613,4 +689,33 @@ input CardInput {
 
   """课程ID"""
   courseId: String!
+}
+
+input ProductInput {
+  """id"""
+  id: String!
+
+  """商品名称"""
+  name: String!
+
+  """商品介绍"""
+  desc: String
+
+  """库存总数"""
+  stock: Float!
+
+  """每人限购数"""
+  limitBuyNumPerson: Float!
+
+  """封面图"""
+  coverUrl: String
+
+  """banner图"""
+  bannerUrl: String
+
+  """原价"""
+  originalPrice: Float!
+
+  """优惠价"""
+  specialPrice: Float
 }
